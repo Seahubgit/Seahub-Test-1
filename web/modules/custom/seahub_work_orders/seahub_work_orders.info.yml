@@ -1,0 +1,7 @@
+name: Seahub Work Orders (Mini)
+type: module
+description: "Mini repo challenge: work orders entity, soft delete, views + API."
+core_version_requirement: ^10
+package: Seahub Mini
+dependencies:
+  - drupal:user

@@ -16,4 +16,4 @@ cr:
 	ddev drush cr
 
 test:
-	ddev phpunit -c web/core --testsuite seahub_work_orders
+	@ddev exec bash -lc 'mkdir -p /tmp/browser_output; export SIMPLETEST_DB="mysql://db:db@db:3306/db"; export BROWSERTEST_OUTPUT_DIRECTORY="/tmp/browser_output"; ./vendor/bin/phpunit -c web/core web/modules/custom/seahub_work_orders/tests/src'

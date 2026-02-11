@@ -1,0 +1,18 @@
+<?php
+
+declare(strict_types=1);
+
+use Drupal\Core\Entity\Query\QueryInterface;
+
+/**
+ * Implements hook_entity_query_alter().
+ */
+function seahub_work_orders_entity_query_alter(QueryInterface $query): void {
+  // Only affect Work Order queries.
+  if ($query->getEntityTypeId() !== 'work_order') {
+    return;
+  }
+
+  // If the query is tagged to include deleted items, do not alter it.
+  // Hint, use hasTag and notExists()
+}

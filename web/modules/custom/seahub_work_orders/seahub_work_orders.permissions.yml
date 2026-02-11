@@ -1,0 +1,3 @@
+administer seahub work orders:
+  title: "Administer Seahub Work Orders"
+  description: "Manage work orders, including viewing soft-deleted items."

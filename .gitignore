@@ -2,3 +2,4 @@ vendor
 web/core
 web/sites/*/files
 web/sites/*/*.local.*
+web/sites/simpletest
