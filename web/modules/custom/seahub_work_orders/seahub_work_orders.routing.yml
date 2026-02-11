@@ -1,8 +1,8 @@
-seahub_work_orders.api.list:
-  path: '/api/work-orders'
+seahub_work_orders.api_work_orders:
+  path: '/api/v1/work-orders'
   defaults:
     _controller: '\Drupal\seahub_work_orders\Controller\WorkOrderApiController::list'
-  requirements:
-    _permission: 'access content'
-  options:
     _format: 'json'
+  methods: [GET]
+  requirements:
+    _permission: 'access work order api'

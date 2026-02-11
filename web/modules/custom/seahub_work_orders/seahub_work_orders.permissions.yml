@@ -1,3 +1,7 @@
 administer seahub work orders:
   title: "Administer Seahub Work Orders"
   description: "Manage work orders, including viewing soft-deleted items."
+
+access work order api:
+  title: 'Access Work Order API'
+  description: 'Allows users to access the Work Order API endpoint.'

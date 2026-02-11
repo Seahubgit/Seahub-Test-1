@@ -3,9 +3,16 @@
 declare(strict_types=1);
 
 use Drupal\Core\Entity\Query\QueryInterface;
+use Drupal\seahub_work_orders\WorkOrderStorage;
+use Drupal\views\ViewExecutable;
+use Drupal\views\Plugin\views\query\QueryPluginBase;
 
 /**
  * Implements hook_entity_query_alter().
+ *
+ * Applies default soft-delete filtering for Work Order entity queries.
+ * By default, only records where deleted_at IS NULL are returned.
+ * The filter is skipped if the escape hatch tag is present.
  */
 function seahub_work_orders_entity_query_alter(QueryInterface $query): void {
   // Only affect Work Order queries.
@@ -14,5 +21,40 @@ function seahub_work_orders_entity_query_alter(QueryInterface $query): void {
   }
 
   // If the query is tagged to include deleted items, do not alter it.
-  // Hint, use hasTag and notExists()
+  if ($query->hasTag(WorkOrderStorage::TAG_INCLUDE_DELETED)) {
+    return;
+  }
+
+  // Using notExists() ensures only entities without a deleted_at value are returned.
+  $query->notExists('deleted_at');
 }
+
+/**
+ * Implements hook_views_query_alter().
+ *
+ * Applies soft-delete filtering to Work Order admin Views.
+ * The filter is skipped if the include-deleted query tag is set
+ * in the View configuration.
+ */
+function seahub_work_orders_views_query_alter(ViewExecutable $view, QueryPluginBase $query) {
+  // Only target Work Order views.
+  if ($view->storage->get('base_table') !== 'work_order') {
+    return;
+  }
+
+  // Check if the View has the escape hatch query tag.
+  $tags = $query->options['query_tags'] ?? [];
+  if (in_array(WorkOrderStorage::TAG_INCLUDE_DELETED, $tags, TRUE)) {
+    return;
+  }
+
+  // Add SQL condition to exclude soft-deleted records.
+  $alias = $query->ensureTable('work_order');
+  $query->addWhere(
+    0,
+    "$alias.deleted_at",
+    NULL,
+    'IS NULL'
+  );
+}
+
