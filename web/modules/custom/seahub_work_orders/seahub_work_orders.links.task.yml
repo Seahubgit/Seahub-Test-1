@@ -1,0 +1,9 @@
+seahub_work_orders.active_work_orders:
+  route_name: view.work_orders.active_work_orders
+  title: 'Active'
+  base_route: view.work_orders.active_work_orders
+
+seahub_work_orders.all_work_orders:
+  route_name: view.work_orders.all_work_orders
+  title: 'All'
+  base_route: view.work_orders.active_work_orders
