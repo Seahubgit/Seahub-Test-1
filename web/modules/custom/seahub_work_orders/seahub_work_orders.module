@@ -3,6 +3,12 @@
 declare(strict_types=1);
 
 use Drupal\Core\Entity\Query\QueryInterface;
+use Drupal\seahub_work_orders\WorkOrderStorage;
+
+/**
+ * @file
+ * Main module file for Seahub Work Orders.
+ */
 
 /**
  * Implements hook_entity_query_alter().
@@ -13,6 +19,12 @@ function seahub_work_orders_entity_query_alter(QueryInterface $query): void {
     return;
   }
 
-  // If the query is tagged to include deleted items, do not alter it.
-  // Hint, use hasTag and notExists()
+  // If the query is tagged to include deleted items, do not filter.
+  if ($query->hasTag(WorkOrderStorage::TAG_INCLUDE_DELETED)) {
+    return;
+  }
+
+  // Default behavior: exclude soft-deleted items.
+  // Use notExists() to check if deleted_at field is NULL.
+  $query->notExists('deleted_at');
 }

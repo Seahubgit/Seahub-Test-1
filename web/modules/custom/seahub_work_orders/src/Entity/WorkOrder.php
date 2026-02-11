@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace Drupal\seahub_work_orders\Entity;
 
 use Drupal\Core\Entity\ContentEntityBase;
+use Drupal\Core\Entity\EntityChangedInterface;
 use Drupal\Core\Entity\EntityChangedTrait;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Field\BaseFieldDefinition;
+use Drupal\user\EntityOwnerInterface;
 use Drupal\user\EntityOwnerTrait;
 
 /**
@@ -32,10 +34,33 @@ use Drupal\user\EntityOwnerTrait;
  *   }
  * )
  */
-final class WorkOrder extends ContentEntityBase {
+final class WorkOrder extends ContentEntityBase implements EntityChangedInterface, EntityOwnerInterface {
 
   use EntityChangedTrait;
   use EntityOwnerTrait;
+
+  /**
+   * Gets the work order creation timestamp.
+   *
+   * @return int
+   *   Creation timestamp of the work order.
+   */
+  public function getCreatedTime(): int {
+    return (int) $this->get('created')->value;
+  }
+
+  /**
+   * Sets the work order creation timestamp.
+   *
+   * @param int $timestamp
+   *   The work order creation timestamp.
+   *
+   * @return $this
+   */
+  public function setCreatedTime(int $timestamp): static {
+    $this->set('created', $timestamp);
+    return $this;
+  }
 
   /**
    * {@inheritdoc}
