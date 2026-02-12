@@ -3,3 +3,7 @@ web/core
 web/sites/*/files
 web/sites/*/*.local.*
 web/sites/simpletest
+.idea/
+.ddev/docker-compose.adminer*.yaml
+.ddev/addon-metadata/
+.ddev/commands/host/adminer
