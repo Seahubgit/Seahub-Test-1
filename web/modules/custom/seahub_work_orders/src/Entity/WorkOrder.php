@@ -20,7 +20,8 @@ use Drupal\user\EntityOwnerTrait;
  *   handlers = {
  *     "storage" = "Drupal\seahub_work_orders\WorkOrderStorage",
  *     "access" = "Drupal\Core\Entity\EntityAccessControlHandler",
- *     "list_builder" = "Drupal\Core\Entity\EntityListBuilder"
+ *     "list_builder" = "Drupal\Core\Entity\EntityListBuilder",
+ *      "views_data" = "Drupal\views\EntityViewsData"
  *   },
  *   base_table = "work_order",
  *   admin_permission = "administer seahub work orders",
