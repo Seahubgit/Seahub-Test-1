@@ -7,7 +7,6 @@ up:
 
 install:
 	ddev drush si -y minimal --account-name=admin --account-pass=admin
-	ddev drush en -y options
 	ddev drush en -y seahub_work_orders
 
 cim:
