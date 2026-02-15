@@ -6,6 +6,7 @@ namespace Drupal\seahub_work_orders;
 
 use Drupal\Core\Entity\Sql\SqlContentEntityStorage;
 use Drupal\Core\Entity\Query\QueryInterface;
+use Drupal\Core\Database\Query\SelectInterface;
 
 /**
  * Storage handler for Work Orders.
@@ -26,6 +27,23 @@ final class WorkOrderStorage extends SqlContentEntityStorage {
    */
   public function getQuery($conjunction = 'AND'): QueryInterface {
     return parent::getQuery($conjunction);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function buildQuery($ids, $revision_id = FALSE): SelectInterface {
+    $query = parent::buildQuery($ids, $revision_id);
+
+    // If the query does NOT explicitly ask to include deleted items,
+    // exclude soft-deleted records by default.
+    if (!$query->hasTag(self::TAG_INCLUDE_DELETED)) {
+      // Base table alias is usually the entity table.
+      // Using baseTable property directly as getBaseTable() is not standard in SqlContentEntityStorage.
+      $query->condition($this->baseTable . '.deleted_at', NULL, 'IS NULL');
+    }
+
+    return $query;
   }
 
 }
