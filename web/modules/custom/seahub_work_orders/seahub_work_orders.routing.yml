@@ -4,5 +4,14 @@ seahub_work_orders.api.list:
     _controller: '\Drupal\seahub_work_orders\Controller\WorkOrderApiController::list'
   requirements:
     _permission: 'access content'
+  methods: [GET]
   options:
     _format: 'json'
+
+seahub_work_orders.admin_list:
+  path: '/admin/work-orders'
+  defaults:
+    _controller: '\Drupal\seahub_work_orders\Controller\WorkOrderListController::listing'
+    _title: 'Work Orders'
+  requirements:
+    _permission: 'administer seahub work orders'
